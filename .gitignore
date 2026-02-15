@@ -1,0 +1,17 @@
+# Go
+/chat-app
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+go.work
+go.work.sum
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
