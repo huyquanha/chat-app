@@ -1,8 +1,8 @@
 {
   "bazel.buildifierExecutable": "@buildifier_prebuilt//:buildifier",
   "bazel.buildifierFixOnFormat": true,
-  "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "[go]": {
     "editor.defaultFormatter": "golang.go"

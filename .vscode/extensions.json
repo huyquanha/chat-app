@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "bazelbuild.vscode-bazel",
+    "esbenp.prettier-vscode",
+    "golang.go",
+    "mads-hartmann.bash-ide-vscode",
+    "svelte.svelte-vscode",
+    "zxh404.vscode-proto3"
+  ]
+}

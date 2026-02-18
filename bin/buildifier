@@ -2,8 +2,17 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+args=()
+for arg in "$@"; do
+  if [[ -e "$arg" ]]; then
+    # It's a file or directory — make it absolute
+    # The first cd will fail if arg is a file, hence
+    # 2>/dev/null to suppress the error.
+    args+=("$(cd "$arg" 2>/dev/null && pwd || echo "$(cd "$(dirname "$arg")" && pwd)/$(basename "$arg")")")
+  else
+    # It's a flag or non-path argument — pass through
+    args+=("$arg")
+  fi
+done
 
-# TODO: Add support for -mode check and -lint warn
-exec bazel run @buildifier_prebuilt//:buildifier -- -r "${REPO_ROOT}"
+exec bazel run @buildifier_prebuilt//:buildifier -- "${args[@]}"
