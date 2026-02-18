@@ -31,7 +31,6 @@ gazelle_binary(
 # gazelle:exclude web
 # gazelle:go_proto_compilers @rules_go//proto:go_proto
 # gazelle:go_grpc_compilers @rules_go//proto:go_proto,//:connect_go_grpc_compiler
-# gazelle:resolve proto go buf/validate/validate.proto @buf_deps//buf/validate:validate_go_proto
 gazelle(
     name = "gazelle",
     gazelle = ":gazelle_buf",

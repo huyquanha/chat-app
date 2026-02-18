@@ -4,7 +4,44 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
+  "files.associations": {
+    "*.bazelrc": "bazelrc"
+  },
   "[go]": {
     "editor.defaultFormatter": "golang.go"
-  }
+  },
+  // Settings for go/bazel are based on editor setup instructions at
+  // https://github.com/bazelbuild/rules_go/wiki/Editor-setup#visual-studio-code
+  "go.goroot": "${workspaceFolder}/bazel-${workspaceFolderBasename}/external/rules_go++go_sdk+main___download_0/",
+  "go.toolsEnvVars": {
+    "GOPACKAGESDRIVER": "${workspaceFolder}/tools/gopackagesdriver.sh"
+  },
+  "go.enableCodeLens": {
+    "runtest": false
+  },
+  "gopls": {
+    "build.workspaceFiles": ["**/BUILD", "**/*.{bzl,bazel}"],
+    "build.directoryFilters": [
+      "-bazel-bin",
+      "-bazel-out",
+      "-bazel-testlogs",
+      "-bazel-chat-app"
+    ],
+    "formatting.gofumpt": true,
+    "formatting.local": "github.com/huyquanha/chat-app",
+    "ui.completion.usePlaceholders": true,
+    "ui.semanticTokens": true,
+    "ui.codelenses": {
+      "gc_details": false,
+      "regenerate_cgo": false,
+      "generate": false,
+      "test": false,
+      "tidy": false,
+      "upgrade_dependency": false,
+      "vendor": false
+    }
+  },
+  "go.useLanguageServer": true,
+  "go.lintOnSave": "off",
+  "go.vetOnSave": "off"
 }
