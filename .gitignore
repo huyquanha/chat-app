@@ -9,9 +9,15 @@
 go.work
 go.work.sum
 
+# Bazel
+bazel-*
+
 # IDE
 .idea
-.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
 *.swp
 *.swo
 *~

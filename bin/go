@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Wrapper to invoke Go via Bazel's rules_go SDK. Through direnv,
+# this script is automatically added to PATH and takes precedence
+# over Go installations on the system.
+# Ensures everyone uses the same Go version as defined in go.mod.
+
+set -euo pipefail
+
+exec bazel run @rules_go//go -- "$@"

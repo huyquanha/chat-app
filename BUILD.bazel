@@ -1,0 +1,20 @@
+load("@gazelle//:def.bzl", "gazelle")
+load("@rules_go//go:def.bzl", "nogo")
+
+gazelle(name = "gazelle")
+
+nogo(
+    name = "my_nogo",
+    vet = True,
+    visibility = ["//visibility:public"],
+    deps = [
+        # Add the high-value ones that vet=True doesn't include
+        "@org_golang_x_tools//go/analysis/passes/copylock:go_default_library",
+        "@org_golang_x_tools//go/analysis/passes/lostcancel:go_default_library",
+        "@org_golang_x_tools//go/analysis/passes/unreachable:go_default_library",
+        "@org_golang_x_tools//go/analysis/passes/unmarshal:go_default_library",
+        "@org_golang_x_tools//go/analysis/passes/structtag:go_default_library",
+        "@org_golang_x_tools//go/analysis/passes/errorsas:go_default_library",
+        "@org_golang_x_tools//go/analysis/passes/httpresponse:go_default_library",
+    ],
+)
