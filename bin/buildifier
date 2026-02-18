@@ -1,18 +1,19 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dotslash
 
-set -euo pipefail
-
-args=()
-for arg in "$@"; do
-  if [[ -e "$arg" ]]; then
-    # It's a file or directory — make it absolute
-    # The first cd will fail if arg is a file, hence
-    # 2>/dev/null to suppress the error.
-    args+=("$(cd "$arg" 2>/dev/null && pwd || echo "$(cd "$(dirname "$arg")" && pwd)/$(basename "$arg")")")
-  else
-    # It's a flag or non-path argument — pass through
-    args+=("$arg")
-  fi
-done
-
-exec bazel run @buildifier_prebuilt//:buildifier -- "${args[@]}"
+{
+  "name": "buildifier",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 7717890,
+      "hash": "blake3",
+      "digest": "1f01da46c314bd22890d92731b44bcfc555331c87bc113c72c9be13eaa27cb59",
+      "path": "buildifier",
+      "providers": [
+        {
+          // Keep this version in sync with MODULE.bazel @buildifier_prebuilt
+          "url": "https://github.com/bazelbuild/buildtools/releases/download/v8.2.1/buildifier-darwin-arm64"
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,11 @@
 {
-  "bazel.buildifierExecutable": "@buildifier_prebuilt//:buildifier",
+  // This will use ../bin/buildifier since it's first on PATH, thanks to direnv.
+  "bazel.buildifierExecutable": "buildifier",
   "bazel.buildifierFixOnFormat": true,
+  // This enables using a separate output base for running queries,
+  // which doesn't block users' other Bazel operations.
+  "bazel.queriesShareServer": false,
+  "bazel.lsp.command": "starpls",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
@@ -13,6 +18,7 @@
   // Settings for go/bazel are based on editor setup instructions at
   // https://github.com/bazelbuild/rules_go/wiki/Editor-setup#visual-studio-code
   "go.goroot": "${workspaceFolder}/bazel-${workspaceFolderBasename}/external/rules_go++go_sdk+main___download_0/",
+  "go.toolsManagement.autoUpdate": true,
   "go.toolsEnvVars": {
     "GOPACKAGESDRIVER": "${workspaceFolder}/tools/gopackagesdriver.sh"
   },

@@ -1,0 +1,19 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "starpls",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 3513300,
+      "hash": "blake3",
+      "digest": "4415d1c3cc5cfbc772dc4f18626d4768e53e2534c5537a13dde685883fb1096b",
+      "format": "tar.gz",
+      "path": "starpls",
+      "providers": [
+        {
+          "url": "https://github.com/withered-magic/starpls/releases/download/v0.1.22/starpls-darwin-arm64.tar.gz"
+        }
+      ]
+    }
+  }
+}
