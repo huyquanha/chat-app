@@ -5,16 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to Process",
+      "name": "Attach to Go process",
       "type": "go",
       "debugAdapter": "dlv-dap",
       "request": "attach",
       "mode": "remote",
       "host": "127.0.0.1",
-      "port": 58370, // change this according to the port output of bin/go-dbg
+      "port": 0, // change this according to the port output of bin/go-dbg
       "logOutput": "dap",
       "showLog": true,
       "trace": "verbose",
+      // This is necessary to make the debugger work with Bazel-built binary.
+      // See: https://github.com/bazel-contrib/rules_go/issues/1844#issuecomment-1281231804
       "substitutePath": [{ "from": "${workspaceFolder}", "to": "" }]
     }
   ]
