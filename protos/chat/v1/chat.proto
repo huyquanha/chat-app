@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package chat.v1;
+
+option go_package = "github.com/huyquanha/chat-app/protos/chat/v1;chatv1";
+
+import "google/protobuf/timestamp.proto";
+
+message ChatMessage {
+  string id = 1;
+  string content = 2;
+  // The user id of the sender.
+  string sender_id = 3;
+  // The room id the message is sent to.
+  string room_id = 4;
+  google.protobuf.Timestamp sent_at = 5;
+}
+
+message SendMessageRequest {
+  // The room id the message is sent to.
+  string room_id = 1;
+  string content = 2;
+}
+
+message SendMessageResponse {
+  string message_id = 1;
+  google.protobuf.Timestamp sent_at = 2;
+}
+
+message SubscribeRequest {
+  string room_id = 1;
+}
+
+service ChatService {
+  // send a message to a room
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+
+  // stream messages from a room in real time
+  rpc Subscribe(SubscribeRequest) returns (stream ChatMessage);
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package room.v1;
+
+message Room {
+  string id = 1;
+  string name = 2;
+}
+
+message CreateRoomRequest {
+  string name = 1;
+  repeated string member_ids = 2;
+}
+
+message CreateRoomResponse {
+  string room_id = 1;
+}
+
+service RoomService {
+  rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse);
+}

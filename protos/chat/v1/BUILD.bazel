@@ -4,33 +4,34 @@ load("@rules_go//proto:def.bzl", "go_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
 proto_library(
-    name = "greet_v1_proto",
-    srcs = ["greet.proto"],
+    name = "chat_v1_proto",
+    srcs = ["chat.proto"],
     strip_import_prefix = "/protos",
     visibility = ["//visibility:public"],
+    deps = ["@protobuf//:timestamp_proto"],
 )
 
 go_proto_library(
-    name = "greet_v1_go_proto",
+    name = "chat_v1_go_proto",
     compilers = [
         "@rules_go//proto:go_proto",
         "//:connect_go_grpc_compiler",
     ],
-    importpath = "github.com/huyquanha/chat-app/protos/greet/v1",
-    proto = ":greet_v1_proto",
+    importpath = "github.com/huyquanha/chat-app/protos/chat/v1",
+    proto = ":chat_v1_proto",
     visibility = ["//visibility:public"],
 )
 
 go_library(
-    name = "greet",
-    embed = [":greet_v1_go_proto"],
-    importpath = "github.com/huyquanha/chat-app/protos/greet/v1",
+    name = "chat",
+    embed = [":chat_v1_go_proto"],
+    importpath = "github.com/huyquanha/chat-app/protos/chat/v1",
     visibility = ["//visibility:public"],
 )
 
 buf_lint_test(
-    name = "greet_v1_proto_lint",
+    name = "chat_v1_proto_lint",
     config = "//:buf.yaml",
     module = "protos",
-    targets = [":greet_v1_proto"],
+    targets = [":chat_v1_proto"],
 )

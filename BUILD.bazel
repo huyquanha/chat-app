@@ -30,7 +30,9 @@ gazelle_binary(
 # gazelle:exclude bazel-*
 # gazelle:exclude web
 # gazelle:go_proto_compilers @rules_go//proto:go_proto
+## @rules_go//proto:go_proto needs to be repeated here. See: https://github.com/bazel-contrib/bazel-gazelle/issues/1445#issuecomment-1825014865
 # gazelle:go_grpc_compilers @rules_go//proto:go_proto,//:connect_go_grpc_compiler
+# gazelle:exclude protos/**/empty.go
 gazelle(
     name = "gazelle",
     gazelle = ":gazelle_buf",
