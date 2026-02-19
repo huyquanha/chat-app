@@ -2,18 +2,32 @@
 
 set -euo pipefail
 
-target=$1
+workspace=$(git rev-parse --show-toplevel)
 
-rule_type=$(bazel query --output=label_kind "${target}" | awk '{print $1}')
-if [[ "${rule_type}" != "go_binary" ]]; then
-  echo "error: target must be a go_binary, got ${rule_type}" >&2
+file=$1
+
+# Convert file path to bazel label path (remove leading workspace prefix)
+rel=${file#"${workspace}/"}
+
+if [[ "${rel}" == *_test.go ]]; then
+  rule_type="go_test"
+else
+  rule_type="go_binary"
+fi
+
+# Filter to the right rule type
+target=$(bazel query "kind(${rule_type}, rdeps(//..., ${rel}))" | head -1)
+
+if [[ -z "${target}" ]]; then
+  echo "error: could not find ${rule_type} target that contains ${file}" >&2
   exit 1
 fi
+
+echo "found target: ${target}"
 
 bazel build -c dbg "${target}"
 
 out=$(bazel cquery -c dbg --output=files "${target}")
 
-# dlv exec will pause the process execution until the debugger attaches.
-# :0 to let the OS assign a random (and free) port.
-dlv exec "${out}" --log --log-output=dap --headless --listen=127.0.0.1:0 --api-version=2
+# Add --log --log-output=dap to see more detailed debug logs.
+dlv exec "${out}" --headless --listen=127.0.0.1:2345 --api-version=2

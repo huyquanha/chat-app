@@ -1,6 +1,8 @@
 {
-  // This will use ../bin/buildifier since it's first on PATH, thanks to direnv.
-  "bazel.buildifierExecutable": "buildifier",
+  // VSCode shell has no knowledge of direnv/.envrc, so we need to
+  // specify the relative path to the buildifier binary. The path
+  // is relative to the workspace root.
+  "bazel.buildifierExecutable": "bin/buildifier",
   "bazel.buildifierFixOnFormat": true,
   // This enables using a separate output base for running queries,
   // which doesn't block users' other Bazel operations.

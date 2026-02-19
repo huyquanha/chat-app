@@ -13,7 +13,7 @@ go_sdk.nogo(nogo = "//:my_nogo")
 
 go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
 go_deps.from_file(go_mod = "//:go.mod")
-use_repo(go_deps, "com_connectrpc_connect", "org_golang_x_tools")
+use_repo(go_deps, "com_connectrpc_connect", "com_github_stretchr_testify", "org_golang_x_tools")
 
 # buf = use_extension("@rules_buf//buf:extensions.bzl", "buf")
 

@@ -5,13 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to Go process",
+      "name": "Go: Debug Current File",
+      "preLaunchTask": "go-dbg-current-file",
       "type": "go",
       "debugAdapter": "dlv-dap",
       "request": "attach",
       "mode": "remote",
       "host": "127.0.0.1",
-      "port": 0, // change this according to the port output of bin/go-dbg
+      "port": 2345,
       "logOutput": "dap",
       "showLog": true,
       "trace": "verbose",

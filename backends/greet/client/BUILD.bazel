@@ -1,4 +1,4 @@
-load("@rules_go//go:def.bzl", "go_binary", "go_library")
+load("@rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
 
 go_library(
     name = "client_lib",
@@ -15,4 +15,11 @@ go_binary(
     name = "client",
     embed = [":client_lib"],
     visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "client_test",
+    srcs = ["main_test.go"],
+    embed = [":client_lib"],
+    deps = ["@com_github_stretchr_testify//assert"],
 )

@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "go-dbg-current-file",
+      "type": "shell",
+      "command": "${workspaceFolder}/bin/go-dbg ${file}",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "found target:",
+          "endsPattern": "API server listening at:"
+        }
+      }
+    }
+  ]
+}
