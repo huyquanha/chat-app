@@ -43,6 +43,6 @@ Some useful commands:
 
 ### Debugging
 
-1. Open the file to debug (this could be a source file, or a test file).
+1. Open the file to debug (both source and test files are supported).
 2. Set a breakpoint
-3. OP
+3. Switch to Run and Debug view in the Primary sidebar, then run the `Go: Debug Current File` configuration. This will build the Bazel target containing the currently open file, then start it in debug mode with `dlv exec`, before the VSCode debugger finally attaches.
