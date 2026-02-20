@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
-exec bazel run //:gazelle -- "$@"
+exec bazel-run //:gazelle "$@"

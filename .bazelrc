@@ -1,3 +1,7 @@
 # buf_lint_test requires --include_source_info to be set on protoc invocations.
 # See https://github.com/bazelbuild/rules_proto/issues/56#issuecomment-627860112
 common --experimental_proto_descriptor_sets_include_source_info
+
+common --disk_cache=~/.cache/chat_app_bazel_disk_cache
+common --experimental_disk_cache_gc_max_size=50G
+common --experimental_disk_cache_gc_max_age=30d

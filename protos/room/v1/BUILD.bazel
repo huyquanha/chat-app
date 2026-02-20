@@ -4,33 +4,33 @@ load("@rules_go//proto:def.bzl", "go_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
 proto_library(
-    name = "room_v1_proto",
+    name = "roomv1_proto",
     srcs = ["room.proto"],
     strip_import_prefix = "/protos",
     visibility = ["//visibility:public"],
 )
 
 go_proto_library(
-    name = "room_v1_go_proto",
+    name = "roomv1_go_proto",
     compilers = [
         "@rules_go//proto:go_proto",
         "//:connect_go_grpc_compiler",
     ],
     importpath = "github.com/huyquanha/chat-app/protos/room/v1",
-    proto = ":room_v1_proto",
+    proto = ":roomv1_proto",
     visibility = ["//visibility:public"],
 )
 
 go_library(
     name = "room",
-    embed = [":room_v1_go_proto"],
+    embed = [":roomv1_go_proto"],
     importpath = "github.com/huyquanha/chat-app/protos/room/v1",
     visibility = ["//visibility:public"],
 )
 
 buf_lint_test(
-    name = "room_v1_proto_lint",
+    name = "roomv1_proto_lint",
     config = "//:buf.yaml",
     module = "protos",
-    targets = [":room_v1_proto"],
+    targets = [":roomv1_proto"],
 )
