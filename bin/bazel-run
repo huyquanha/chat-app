@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+_LOG="/dev/null"
+
+_TARGET="${1}"
+shift
+
+if [[ -z "${_TARGET}" ]]; then
+  echo "error: target is required" >&2
+  exit 1
+fi
+
+_RUNSCRIPT="$(mktemp)"
+# Clean up the run script after it exits.
+trap 'rm -f "${_RUNSCRIPT}"' EXIT
+
+# Generates a script to run the Go binary, to avoid holding the bazel lock
+# and connect the executable to stdin.
+# See: https://bazel.build/reference/command-line-reference#run-flag--script_path
+if ! bazel run --script_path="${_RUNSCRIPT}" "${_TARGET}" \
+  >> "${_LOG}" 2>&1; then
+  echo "Failed to generate run script. See ${_LOG}" >&2
+  exit 1
+fi
+
+# Do not exec the run script, so the shell process stays around
+# and can invoke the trap to remove the run script later.
+"${_RUNSCRIPT}" "$@"
