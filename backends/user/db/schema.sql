@@ -1,3 +1,5 @@
+-- Added for testing purposes, otherwise the GRANT statement will fail.
+-- In production, the role is created and managed by CloudNativePG.
 CREATE ROLE user_rpc;
 
 CREATE TABLE users (

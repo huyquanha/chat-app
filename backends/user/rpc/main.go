@@ -97,7 +97,9 @@ func run() error {
 	}()
 
 	<-signals
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	// Give it 10s to shutdown, which matches the WriteTimeout setting to ensure
+	// on-going requests are completed.
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	if err := s.Shutdown(ctx); err != nil {
 		return fmt.Errorf("HTTP server shutdown: %w", err)
