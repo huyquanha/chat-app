@@ -5,3 +5,7 @@ common --experimental_proto_descriptor_sets_include_source_info
 common --disk_cache=~/.cache/chat_app_bazel_disk_cache
 common --experimental_disk_cache_gc_max_size=50G
 common --experimental_disk_cache_gc_max_age=30d
+
+# The test container reaper doesn't work well with Podman, so we disable it,
+# since we already called Terminate() on the containers explicitly.
+test --test_env=TESTCONTAINERS_RYUK_DISABLED=true

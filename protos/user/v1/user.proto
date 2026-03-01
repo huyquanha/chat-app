@@ -4,19 +4,48 @@ package user.v1;
 
 option go_package = "github.com/huyquanha/chat-app/protos/user/v1;userv1";
 
+import "buf/validate/validate.proto";
+
 message User {
   string id = 1;
   string username = 2;
 }
 
 message CreateUserRequest {
-  string username = 1;
+  string username = 1 [(buf.validate.field).string = {
+    min_len: 5,
+    max_len: 50,
+  }];
 }
 
 message CreateUserResponse {
-  string user_id = 1;
+  string id = 1;
+}
+
+message GetUserRequest {
+  oneof identifier {
+    string id = 1 [(buf.validate.field).string.uuid = true];
+    string username = 2 [(buf.validate.field).string = {
+      min_len: 5,
+      max_len: 50,
+    }];
+  };
+}
+
+message GetUserResponse {
+  string id = 1;
+  string username = 2;
+}
+
+message DeleteUserRequest {
+  string id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message DeleteUserResponse {
 }
 
 service UserService {
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
 }

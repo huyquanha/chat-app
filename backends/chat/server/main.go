@@ -6,7 +6,6 @@ import (
 
 	"connectrpc.com/connect"
 	"connectrpc.com/validate"
-
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	chatv1 "github.com/huyquanha/chat-app/protos/chat/v1"
@@ -28,14 +27,16 @@ func (s *ChatServer) SendMessage(
 func (s *ChatServer) Subscribe(
 	_ context.Context,
 	req *connect.Request[chatv1.SubscribeRequest],
-	stream *connect.ServerStream[chatv1.ChatMessage],
+	stream *connect.ServerStream[chatv1.SubscribeResponse],
 ) error {
-	res := &chatv1.ChatMessage{
-		Id:       "1",
-		Content:  "Hello, world!",
-		SenderId: "1",
-		RoomId:   "1",
-		SentAt:   timestamppb.Now(),
+	res := &chatv1.SubscribeResponse{
+		Message: &chatv1.ChatMessage{
+			Id:       "1",
+			Content:  "Hello, world!",
+			SenderId: "1",
+			RoomId:   "1",
+			SentAt:   timestamppb.Now(),
+		},
 	}
 	stream.Send(res)
 	return nil

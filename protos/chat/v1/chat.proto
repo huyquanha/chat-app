@@ -31,10 +31,16 @@ message SubscribeRequest {
   string room_id = 1;
 }
 
+message SubscribeResponse {
+  ChatMessage message = 1;
+}
+
 service ChatService {
   // send a message to a room
-  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }; 
 
   // stream messages from a room in real time
-  rpc Subscribe(SubscribeRequest) returns (stream ChatMessage);
+  rpc Subscribe(SubscribeRequest) returns (stream SubscribeResponse);
 }

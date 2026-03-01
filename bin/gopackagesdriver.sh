@@ -23,9 +23,11 @@ _RUNSCRIPT="${_GOPKGS_DRIVER_DIR}/bazel-run"
 # The last timestamp the runscript was generated.
 _RUNSCRIPT_STAMP="${_GOPKGS_DRIVER_DIR}/generated_at"
 
-_LOG="/dev/null"
+_LOG="/tmp/gopackagesdriver.log"
 
 _GOPKGS_DRIVER_TARGET="@rules_go//go/tools/gopackagesdriver"
+
+# GOPACKAGESDRIVER_REFRESH=1
 
 TTL_SECONDS=43200 # 12 hours
 _NOW="$(date +%s)"
@@ -79,7 +81,7 @@ if need_regen; then
   # this can help if gopls issues multiple concurrent queries to gopackagesdriver.
   if ! bazel run --script_path="${_TMP_RUNSCRIPT}" ${_GOPKGS_DRIVER_TARGET} \
     >> "${_LOG}" 2>&1; then
-    echo "Failed to generate run script. See ${_LOG}" >&2
+    log "Failed to generate run script"
     exit 1
   fi
 

@@ -22,24 +22,44 @@ go_deps.from_file(go_mod = "//:go.mod")
 # This module is only a dependency for //:my_nogo, not the Go code,
 # so we can't include it in go.mod (otherwise, `go mod tidy` would
 # remove it).
+# The details (sum, version) are obtained from the output of
+# `go mod download -json golang.org/x/tools@0.42.0`
 go_deps.module(
     path = "golang.org/x/tools",
     sum = "h1:uNgphsn75Tdz5Ji2q36v/nsFSfR/9BRFvqhGBaJGd5k=",
     version = "0.42.0",
 )
+
+# This module is only a dependency for the generated go_proto_library
+# targets that use protovalidate, not the Go code, so we can't include
+# it in go.mod (otherwise, `go mod tidy` would remove it).
+# The details (sum, version) are obtained from the output of
+# `go mod download -json buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go`
+go_deps.module(
+    path = "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go",
+    sum = "h1:PMmTMyvHScV9Mn8wc6ASge9uRcHy0jtqPd+fM35LmsQ=",
+    version = "v1.36.11-20260209202127-80ab13bee0bf.1",
+)
 use_repo(
     go_deps,
+    "build_buf_gen_go_bufbuild_protovalidate_protocolbuffers_go",
     "com_connectrpc_connect",
     "com_connectrpc_validate",
+    "com_github_google_uuid",
+    "com_github_jackc_pgerrcode",
+    "com_github_jackc_pgx_v5",
+    "com_github_pressly_goose_v3",
     "com_github_stretchr_testify",
+    "com_github_testcontainers_testcontainers_go",
+    "com_github_testcontainers_testcontainers_go_modules_postgres",
     "org_golang_google_protobuf",
     "org_golang_x_tools",
 )
 
-# buf = use_extension("@rules_buf//buf:extensions.bzl", "buf")
+buf = use_extension("@rules_buf//buf:extensions.bzl", "buf")
 
 # # See https://buf.build/docs/build-systems/bazel#buf-dependencies
-# buf.dependency(module = "buf.build/bufbuild/protovalidate:80ab13bee0bf4272b6161a72bf7034e0")
+buf.dependency(module = "buf.build/bufbuild/protovalidate:80ab13bee0bf4272b6161a72bf7034e0")
 
 # # Allow references to labels under @buf_deps
-# use_repo(buf, "buf_deps")
+use_repo(buf, "buf_deps")

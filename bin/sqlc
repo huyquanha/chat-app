@@ -1,0 +1,19 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "sqlc",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 14715634,
+      "hash": "blake3",
+      "digest": "9cda31d11e8cbe8d6dc297c3739d4734ed0773bd9f490d6fa924425522a363d7",
+      "format": "tar.gz",
+      "path": "sqlc",
+      "providers": [
+        {
+          "url": "https://github.com/sqlc-dev/sqlc/releases/download/v1.30.0/sqlc_1.30.0_darwin_arm64.tar.gz"
+        }
+      ]
+    }
+  }
+}

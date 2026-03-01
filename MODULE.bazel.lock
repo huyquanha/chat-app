@@ -240,7 +240,7 @@
     "@@rules_buf+//buf:extensions.bzl%buf": {
       "general": {
         "bzlTransitiveDigest": "dSWqckK2ILN7aDIDHfv+Qrl1fb1hF7o7MDXY6T8C41s=",
-        "usagesDigest": "vxN6C2h72rUERbAmd1476FWpxdxo1NhYoY5JSFXJT3g=",
+        "usagesDigest": "OZfFcYUL4lgElNzaUUQcxeNjFwFCvPTgQSGexmO096s=",
         "recordedInputs": [
           "REPO_MAPPING:rules_buf+,bazel_tools bazel_tools"
         ],
@@ -250,6 +250,14 @@
             "attributes": {
               "version": "v1.47.2",
               "sha256": "1b37b75dc0a777a0cba17fa2604bc9906e55bb4c578823d8b7a8fe3fc9fe4439"
+            }
+          },
+          "buf_deps": {
+            "repoRuleId": "@@rules_buf+//buf/internal:repo.bzl%buf_dependencies",
+            "attributes": {
+              "modules": [
+                "buf.build/bufbuild/protovalidate:80ab13bee0bf4272b6161a72bf7034e0"
+              ]
             }
           }
         }

@@ -1,0 +1,18 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "kind",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 10538994,
+      "hash": "blake3",
+      "digest": "067dde699217cd5deb7d14ab0529cd1403e052ae80a53a4af957aae5121130a0",
+      "path": "kind",
+      "providers": [
+        {
+          "url": "https://github.com/kubernetes-sigs/kind/releases/download/v0.31.0/kind-darwin-arm64"
+        }
+      ]
+    }
+  }
+}

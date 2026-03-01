@@ -1,0 +1,18 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "goose",
+  "platforms": {
+    "macos-aarch64": {
+      "size": 36785586,
+      "hash": "blake3",
+      "digest": "380dd81a5f9fa08e6f24b9f04f81f32c02603c44e262401233f1a69dba245d94",
+      "path": "goose",
+      "providers": [
+        {
+          "url": "https://github.com/pressly/goose/releases/download/v3.26.0/goose_darwin_arm64"
+        }
+      ]
+    }
+  }
+}
