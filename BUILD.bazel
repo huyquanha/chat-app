@@ -7,6 +7,7 @@ go_proto_compiler(
     name = "connect_go_grpc_compiler",
     options = [
         "paths=source_relative",
+        # https://github.com/connectrpc/connect-go/discussions/310#discussioncomment-11765339
         "package_suffix",
     ],
     plugin = "@com_connectrpc_connect//cmd/protoc-gen-connect-go:protoc-gen-connect-go",

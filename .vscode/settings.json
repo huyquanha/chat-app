@@ -19,11 +19,11 @@
   },
   // Settings for go/bazel are based on editor setup instructions at
   // https://github.com/bazelbuild/rules_go/wiki/Editor-setup#visual-studio-code
+  // The only difference is instead of using gopackagesdriver, we write the
+  // proto-generated files to the source tree, as gopackagesdriver is very flaky
+  // and expensive.
   "go.goroot": "${workspaceFolder}/bazel-${workspaceFolderBasename}/external/rules_go++go_sdk+main___download_0/",
   "go.toolsManagement.autoUpdate": true,
-  "go.toolsEnvVars": {
-    "GOPACKAGESDRIVER": "${workspaceFolder}/bin/gopackagesdriver.sh"
-  },
   "go.enableCodeLens": {
     "runtest": false
   },

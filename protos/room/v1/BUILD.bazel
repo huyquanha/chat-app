@@ -2,6 +2,7 @@ load("@rules_buf//buf:defs.bzl", "buf_lint_test")
 load("@rules_go//go:def.bzl", "go_library")
 load("@rules_go//proto:def.bzl", "go_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
+load("//protos:write_go_generated_source_files.bzl", "write_go_generated_source_files")
 
 proto_library(
     name = "roomv1_proto",
@@ -18,6 +19,16 @@ go_proto_library(
     ],
     importpath = "github.com/huyquanha/chat-app/protos/room/v1",
     proto = ":roomv1_proto",
+    visibility = ["//visibility:public"],
+)
+
+write_go_generated_source_files(
+    name = "write_roomv1_pb_go",
+    src = ":roomv1_go_proto",
+    output_files = [
+        "room.pb.go",
+        "room.connect.go",
+    ],
     visibility = ["//visibility:public"],
 )
 
