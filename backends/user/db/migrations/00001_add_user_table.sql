@@ -5,11 +5,9 @@ CREATE TABLE users (
     username VARCHAR(50) UNIQUE NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE users TO user_rpc;
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-REVOKE SELECT, INSERT, UPDATE, DELETE ON TABLE users FROM user_rpc;
 DROP TABLE users;
 -- +goose StatementEnd

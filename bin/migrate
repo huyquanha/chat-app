@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+_NAMESPACE="${1:?usage: migrate <namespace> [goose args...]}"
+shift
+
+_DATABASE="app"
+_CLUSTER="${_NAMESPACE}-db"
+_OWNER="app"
+_SECRET="${_CLUSTER}-app"
+_MIGRATIONS_DIR="backends/${_NAMESPACE}/db/migrations"
+_LOCAL_PORT=15432
+
+_PASSWORD=$(kubectl get secret "${_SECRET}" -n "${_NAMESPACE}" \
+  -o jsonpath='{.data.password}' | base64 -d)
+
+kubectl port-forward "svc/${_CLUSTER}-rw" -n "${_NAMESPACE}" \
+  "${_LOCAL_PORT}:5432" &
+_PF_PID=$!
+trap 'kill ${_PF_PID} 2>/dev/null' EXIT
+
+while ! nc -z localhost "${_LOCAL_PORT}" 2>/dev/null; do
+  sleep 0.2
+done
+
+GOOSE_DRIVER=postgres \
+GOOSE_DBSTRING="postgres://${_OWNER}:${_PASSWORD}@localhost:${_LOCAL_PORT}/${_DATABASE}?sslmode=disable" \
+GOOSE_MIGRATION_DIR="${_MIGRATIONS_DIR}" goose "$@"

@@ -2,7 +2,7 @@ load("@rules_buf//buf:defs.bzl", "buf_lint_test")
 load("@rules_go//go:def.bzl", "go_library")
 load("@rules_go//proto:def.bzl", "go_proto_library")
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("//protos:write_go_generated_source_files.bzl", "write_go_generated_source_files")
+load("//tools/bazel_rules/proto:defs.bzl", "write_go_generated_source_files")
 
 proto_library(
     name = "roomv1_proto",

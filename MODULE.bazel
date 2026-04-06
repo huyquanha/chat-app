@@ -2,6 +2,8 @@ bazel_dep(name = "rules_go", version = "0.60.0")
 bazel_dep(name = "gazelle", version = "0.47.0")
 bazel_dep(name = "rules_buf", version = "0.5.2")
 bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
+bazel_dep(name = "platforms", version = "1.0.0")
+bazel_dep(name = "rules_shell", version = "0.7.1")
 
 # Remove this dep and use protoc from protobuf once https://github.com/bazel-contrib/bazel-gazelle/pull/2284 is merged.
 bazel_dep(name = "rules_proto", version = "7.1.0")
@@ -11,6 +13,24 @@ bazel_dep(name = "rules_proto", version = "7.1.0")
 # This can only be updated after the above PR is merged, and we can remove dependency
 # on rules_proto.
 bazel_dep(name = "protobuf", version = "33.5")
+bazel_dep(name = "rules_oci", version = "2.3.0")
+bazel_dep(name = "rules_pkg", version = "1.2.0")
+
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+
+# Declare external images to pull.
+oci.pull(
+    name = "distroless_static",
+    digest = "sha256:47b2d72ff90843eb8a768b5c2f89b40741843b639d065b9b937b07cd59b479c6",
+    image = "gcr.io/distroless/static",
+    platforms = [
+        "linux/amd64",
+        "linux/arm64/v8",
+    ],
+)
+
+# For each oci.pull call, repeat the "name" here to expose them as dependencies.
+use_repo(oci, "distroless_static", "distroless_static_linux_amd64", "distroless_static_linux_arm64_v8")
 
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
 go_sdk.from_file(go_mod = "//:go.mod")

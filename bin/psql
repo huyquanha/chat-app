@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Convenient wrapper to connect to a PostgreSQL database running in a
+# Kubernetes cluster using CloudNativePG, using the owner
+# (`${DATABASE_NAME}_admin`) user and credentials.
+#
+# Usage:
+#   psql <database>              Connect to the primary instance.
+#   psql <database> --replica    Connect to a replica instance.
+
+set -euo pipefail
+
+_NAMESPACE="${1:?usage: psql <namespace> [--replica]}"
+shift
+
+_ROLE="primary"
+if [[ "${1:-}" == "--replica" ]]; then
+  _ROLE="replica"
+  shift
+fi
+
+_CLUSTER="${_NAMESPACE}-db"
+_DATABASE="app"
+_OWNER="app"
+_SECRET="${_CLUSTER}-app" # unfortunately, cloudnative-pg doesn't change the secret suffix according to the custom owner name.
+
+_PASSWORD=$(kubectl get secret "${_SECRET}" -n "${_NAMESPACE}" \
+  -o jsonpath='{.data.password}' | base64 -d)
+
+_POD=$(kubectl get pod -n "${_NAMESPACE}" \
+  -l "cnpg.io/cluster=${_CLUSTER},cnpg.io/instanceRole=${_ROLE}" \
+  -o jsonpath='{.items[0].metadata.name}')
+echo "Connecting to ${_POD}..."
+
+kubectl exec -it "${_POD}" -n "${_NAMESPACE}" -c postgres -- \
+  env PGPASSWORD="${_PASSWORD}" psql -U "${_OWNER}" -d "${_DATABASE}" -h localhost "$@"

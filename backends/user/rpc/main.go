@@ -23,8 +23,6 @@ import (
 const (
 	rwDbHost = "user-db-rw.user.svc"
 	roDbHost = "user-db-ro.user.svc"
-	dbName   = "user"
-	dbPort   = 5432
 )
 
 func main() {
@@ -47,14 +45,14 @@ func run() error {
 	}))
 	slog.SetDefault(logger)
 
-	dbRwPool, err := postgres.CreateDatabasePool(rwDbHost, dbPort, dbName)
+	dbRwPool, err := postgres.CreateDatabasePool(rwDbHost)
 	if err != nil {
 		return fmt.Errorf("failed to create read-write database pool: %w", err)
 	}
 	slog.Info("read-write database pool created", "host", rwDbHost)
 	defer dbRwPool.Close()
 
-	dbRoPool, err := postgres.CreateDatabasePool(roDbHost, dbPort, dbName)
+	dbRoPool, err := postgres.CreateDatabasePool(roDbHost)
 	if err != nil {
 		return fmt.Errorf("failed to create read-only database pool: %w", err)
 	}
@@ -79,7 +77,7 @@ func run() error {
 	p.SetUnencryptedHTTP2(true)
 
 	s := http.Server{
-		Addr:              "localhost:8080",
+		Addr:              ":8080",
 		Handler:           mux,
 		Protocols:         p,
 		ReadHeaderTimeout: 1 * time.Second,

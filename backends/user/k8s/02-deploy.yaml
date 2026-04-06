@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-rpc
+  namespace: user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-rpc
+  template:
+    metadata:
+      labels:
+        app: user-rpc
+    spec:
+      containers:
+        - name: user-rpc
+          image: localhost/bazel/backends/user/rpc:image
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: db-secrets
+              mountPath: /etc/secrets/db
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: db-secrets
+          secret:
+            secretName: user-db-app
+            items:
+              - key: dbname
+                path: dbname
+              - key: port
+                path: port
+              - key: username
+                path: username
+              - key: password
+                path: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-rpc
+  namespace: user
+spec:
+  selector:
+    app: user-rpc
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP

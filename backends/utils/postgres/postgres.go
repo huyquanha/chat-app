@@ -4,17 +4,30 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 const (
+	dbNameFile           = "/etc/secrets/db/dbname"
+	dbPortFile           = "/etc/secrets/db/port"
 	dbUsernameFile       = "/etc/secrets/db/username"
 	dbPasswordFile       = "/etc/secrets/db/password"
-	dbConnStringTemplate = "postgres://%s:%s@%s:%d/%s?sslmode=disable"
+	dbConnStringTemplate = "postgres://%s:%s@%s:%s/%s?sslmode=disable"
 )
 
-func CreateDatabasePool(dbHost string, dbPort int, dbName string) (*pgxpool.Pool, error) {
+func CreateDatabasePool(dbHost string) (*pgxpool.Pool, error) {
+	dbName, err := os.ReadFile(dbNameFile)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read dbname file: %w", err)
+	}
+
+	dbPort, err := os.ReadFile(dbPortFile)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read dbport file: %w", err)
+	}
+
 	username, err := os.ReadFile(dbUsernameFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read username file: %w", err)
@@ -25,7 +38,13 @@ func CreateDatabasePool(dbHost string, dbPort int, dbName string) (*pgxpool.Pool
 		return nil, fmt.Errorf("failed to read password file: %w", err)
 	}
 
-	dbPool, err := pgxpool.New(context.Background(), fmt.Sprintf(dbConnStringTemplate, username, password, dbHost, dbPort, dbName))
+	dbPool, err := pgxpool.New(context.Background(), fmt.Sprintf(dbConnStringTemplate, 
+		strings.TrimSpace(string(username)), 
+		strings.TrimSpace(string(password)), 
+		dbHost, 
+		strings.TrimSpace(string(dbPort)), 
+		strings.TrimSpace(string(dbName)),
+	))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create database pool: %w", err)
 	}
